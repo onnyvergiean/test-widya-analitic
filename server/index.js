@@ -1,0 +1,11 @@
+const express = require('express');
+const app = express();
+const PORT = 3000;
+const routers = require('./router');
+
+app.use(routers);
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+module.exports = app;
