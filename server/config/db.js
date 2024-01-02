@@ -1,5 +1,6 @@
 const pgp = require('pg-promise')();
-const db = pgp(process.env.DATABASE_URL);
 
+const connection = process.env.DATABASE_URL;
+const db = pgp(connection);
 
-module exports = db;
+module.exports = db;
