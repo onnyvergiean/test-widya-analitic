@@ -44,11 +44,11 @@ const getMyProducts = async (id, searchTerm = null) => {
   }
 };
 
-const createProduct = async (name, description, price, user_id) => {
+const createProduct = async (name, description, price, user_id, imgUrl) => {
   try {
     const newProduct = await db.one(
-      'INSERT INTO products (name, description, price, user_id) VALUES ($1, $2, $3, $4) RETURNING *',
-      [name, description, price, user_id]
+      'INSERT INTO products (name, description, price, user_id,imgUrl) VALUES ($1, $2, $3, $4,$5) RETURNING *',
+      [name, description, price, user_id, imgUrl]
     );
 
     return newProduct;
@@ -58,11 +58,11 @@ const createProduct = async (name, description, price, user_id) => {
   }
 };
 
-const updateProduct = async (id, name, description, price) => {
+const updateProduct = async (id, name, description, price, imgUrl) => {
   try {
     const updatedProduct = await db.one(
-      'UPDATE products SET name = $1, description = $2, price = $3 WHERE id = $4 RETURNING *',
-      [name, description, price, id]
+      'UPDATE products SET name = $1, description = $2, price = $3, imgUrl = $4 WHERE id = $5 RETURNING *',
+      [name, description, price, imgUrl, id]
     );
 
     return updatedProduct;
