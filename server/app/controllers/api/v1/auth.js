@@ -75,6 +75,7 @@ const loginUser = async (req, res) => {
       });
     }
     delete user.password;
+    req.session.user = user;
     const token = await generateAccessToken(user);
 
     return res.status(200).json({

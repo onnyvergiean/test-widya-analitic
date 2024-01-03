@@ -1,8 +1,9 @@
 const jwt = require('jsonwebtoken');
-const { JWT_SECRET_KEY } = process.env;
+// const { JWT_SECRET_KEY } = process.env;
+const SECRET_KEY = 'kucinglucu';
 
 const generateAccessToken = (payload) => {
-  return jwt.sign(payload, JWT_SECRET_KEY, { expiresIn: '1h' });
+  return jwt.sign(payload, SECRET_KEY, { expiresIn: '1h' });
 };
 
 const authenticateToken = (req, res, next) => {
@@ -23,7 +24,7 @@ const authenticateToken = (req, res, next) => {
     token = authorization.split(' ')[1];
   }
 
-  jwt.verify(token, JWT_SECRET_KEY, (err, decoded) => {
+  jwt.verify(token, SECRET_KEY, (err, decoded) => {
     if (err) {
       if (err.name === 'TokenExpiredError') {
         return res.status(401).json({

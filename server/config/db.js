@@ -1,6 +1,7 @@
 const pgp = require('pg-promise')();
 
-const connection = process.env.DATABASE_URL;
-const db = pgp(connection);
+const db = pgp(
+  'postgres://postgres:1234@localhost:5432/widya-analitic?schema=public'
+);
 
 module.exports = db;
