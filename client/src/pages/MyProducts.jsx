@@ -19,8 +19,7 @@ const MyProductsPage = () => {
     [dispatch]
   );
 
-  const onSubmitSearch = (e) => {
-    e.preventDefault();
+  const onSubmitSearch = () => {
     handleSearch.cancel();
     dispatch(asyncGetMyProducts({ searchTerm, page: 1, limit: 10 }));
   };

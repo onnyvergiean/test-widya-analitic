@@ -4,7 +4,8 @@ import Swal from 'sweetalert2';
 
 const ProductItem = ({ id, name, price, description, isMyProductsPage }) => {
   const navigate = useNavigate();
-
+  let formattedPrice = price.toFixed(2).replace(/\.00$/, '');
+  let numericPrice = parseInt(formattedPrice.replace(/,/g, ''), 10);
   const onDeleteClick = () => {
     Swal.fire({
       title: 'Are you sure?',
@@ -38,7 +39,7 @@ const ProductItem = ({ id, name, price, description, isMyProductsPage }) => {
       >
         {name}
       </th>
-      <td className="px-6 py-4 font-medium text-gray-900">{price}</td>
+      <td className="px-6 py-4 font-medium text-gray-900">{numericPrice}</td>
       <td className="px-6 py-4 font-medium text-gray-900">{description}</td>
       {isMyProductsPage && (
         <td>
@@ -66,7 +67,7 @@ const ProductItem = ({ id, name, price, description, isMyProductsPage }) => {
 ProductItem.propTypes = {
   id: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
   name: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
   description: PropTypes.string,
   isMyProductsPage: PropTypes.bool,
 };

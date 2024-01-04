@@ -71,10 +71,10 @@ const ProductsList = ({
                 Product Name
               </th>
               <th scope="col" className="px-6 py-3">
-                Description
+                Price
               </th>
               <th scope="col" className="px-6 py-3">
-                Price
+                Description
               </th>
               {isMyProductsPage && (
                 <th scope="col" className="px-6 py-3">
@@ -88,6 +88,7 @@ const ProductsList = ({
               <ProductItem
                 key={index}
                 {...product}
+                price={Number(product.price)}
                 isMyProductsPage={isMyProductsPage}
               />
             ))}
