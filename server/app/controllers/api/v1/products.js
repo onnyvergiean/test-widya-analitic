@@ -94,7 +94,7 @@ const getProductById = async (req, res) => {
 
 const createProduct = async (req, res) => {
   try {
-    const { name, description, price, imgUrl } = req.body;
+    const { name, description, price } = req.body;
     const user_id = req.user.id;
 
     if (!name || !description || !price) {
@@ -109,8 +109,7 @@ const createProduct = async (req, res) => {
       name,
       description,
       price,
-      user_id,
-      imgUrl
+      user_id
     );
 
     return res.status(201).json({
@@ -132,7 +131,7 @@ const updateProduct = async (req, res) => {
   try {
     const id = req.params.id;
     const user_id = req.user.id;
-    const { name, description, price, imgUrl } = req.body;
+    const { name, description, price } = req.body;
 
     const product = await productsModel.getProductById(id);
 
@@ -156,8 +155,7 @@ const updateProduct = async (req, res) => {
       id,
       name,
       description,
-      price,
-      imgUrl
+      price
     );
 
     return res.status(200).json({
