@@ -23,13 +23,21 @@ const api = (() => {
 
   const fetchWithAuth = async (url, options = {}) => {
     try {
+      const accessToken = getAccessToken();
+      if (!accessToken) {
+        throw new Error('Access token is missing.');
+      }
+      const headers = accessToken
+        ? {
+            ...options.headers,
+            Authorization: `Bearer ${accessToken}`,
+          }
+        : options.headers;
+
       const response = await axios({
         url,
         ...options,
-        headers: {
-          ...options.headers,
-          Authorization: `Bearer ${getAccessToken()}`,
-        },
+        headers,
       });
 
       return response;

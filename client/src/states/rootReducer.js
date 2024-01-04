@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux';
 import authUserReducer from './auth/reducer';
+import usersReducer from './users/reducer';
+import isPreloadReducer from './isPreload/reducer';
 import { loadingBarReducer } from 'react-redux-loading-bar';
 
 const rootReducer = combineReducers({
   authUser: authUserReducer,
+  users: usersReducer,
+  isPreload: isPreloadReducer,
   loadingBar: loadingBarReducer,
 });
 

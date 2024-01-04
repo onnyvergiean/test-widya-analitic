@@ -19,14 +19,26 @@ const asyncSetAuthUser =
     try {
       const token = await api.login({ email, password });
       api.putAccessToken(token);
+      const authUser = await api.getOwnProfile();
+      dispatch(setAuthUserActionCreator(authUser));
     } catch (error) {
       alert(error.message);
     }
     dispatch(hideLoading());
   };
 
+const asyncUnsetAuthUser = () => async (dispatch) => {
+  try {
+    await api.logout();
+    dispatch(unsetAuthUserActionCreator());
+    api.putAccessToken('');
+  } catch (error) {
+    alert(error.message);
+  }
+};
 export {
   setAuthUserActionCreator,
   unsetAuthUserActionCreator,
   asyncSetAuthUser,
+  asyncUnsetAuthUser,
 };

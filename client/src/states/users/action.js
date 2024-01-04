@@ -1,14 +1,10 @@
 import { hideLoading, showLoading } from 'react-redux-loading-bar';
+import ActionTypes from '../ActionType';
 import api from '../../utils/api';
-
-const ActionType = {
-  RECEIVE_USERS: 'RECEIVE_USERS',
-  ERROR_RECEIVE_USERS: 'ERROR_RECEIVE_USERS',
-};
 
 function receiveUsersActionCreator(users) {
   return {
-    type: ActionType.RECEIVE_USERS,
+    type: ActionTypes.RECEIVE_USERS,
     payload: {
       users,
     },
@@ -27,4 +23,4 @@ function asyncRegisterUser({ name, email, password, gender }) {
   };
 }
 
-export { ActionType, receiveUsersActionCreator, asyncRegisterUser };
+export { receiveUsersActionCreator, asyncRegisterUser };

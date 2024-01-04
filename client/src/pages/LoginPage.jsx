@@ -1,16 +1,18 @@
 import { useDispatch } from 'react-redux';
 import { asyncSetAuthUser } from '../states/auth/action';
 import useInput from './../hooks/useInput';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const [email, onEmailChange] = useInput('');
   const [password, onPasswordChange] = useInput('');
 
   const dispatch = useDispatch();
-  const onSubmit = (e, { email, password }) => {
+  const onSubmit = (e) => {
     e.preventDefault();
     dispatch(asyncSetAuthUser({ email, password }));
+    navigate('/');
   };
 
   return (
@@ -22,7 +24,7 @@ const LoginPage = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl ">
                 Sign in to your account
               </h1>
-              <form className="space-y-4 md:space-y-6" action="#">
+              <form className="space-y-4 md:space-y-6" onSubmit={onSubmit}>
                 <div>
                   <label
                     htmlFor="email"
@@ -36,9 +38,9 @@ const LoginPage = () => {
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
                     placeholder="name@company.com"
-                    required=""
                     value={email}
                     onChange={onEmailChange}
+                    required
                   />
                 </div>
                 <div>
@@ -54,17 +56,16 @@ const LoginPage = () => {
                     id="password"
                     placeholder="••••••••"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 "
-                    required=""
                     value={password}
                     onChange={onPasswordChange}
-                    autoComplete="current-password"
+                    autoComplete="on"
+                    required
                   />
                 </div>
 
                 <button
                   type="submit"
                   className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                  onClick={(e) => onSubmit(e, { email, password })}
                 >
                   Sign in
                 </button>

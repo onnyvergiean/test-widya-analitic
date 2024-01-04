@@ -78,7 +78,7 @@ const RegisterPage = () => {
                   required
                   value={password}
                   onChange={onPasswordChange}
-                  autoComplete="current-password"
+                  autoComplete="on"
                 />
               </div>
 
