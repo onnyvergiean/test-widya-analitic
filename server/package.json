@@ -19,7 +19,9 @@
     "express-session": "^1.17.3",
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
-    "pg-promise": "^11.5.4"
+    "pg-promise": "^11.5.4",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
