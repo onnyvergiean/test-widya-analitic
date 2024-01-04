@@ -88,12 +88,124 @@ const api = (() => {
     }
   };
 
+  const createProduct = async ({ name, description, price, imgUrl }) => {
+    try {
+      const response = await fetchWithAuth(`${BASE_URL}/products`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          name,
+          description,
+          price,
+          imgUrl,
+        },
+      });
+      const product = handleResponse(response);
+
+      return product;
+    } catch (error) {
+      console.error('Error during product creation:', error.message);
+      throw new Error('Product creation failed');
+    }
+  };
+
+  const getAllProducts = async ({ searchTerm = '', page = 1, limit = 10 }) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/products`, {
+        params: {
+          searchTerm,
+          page,
+          limit,
+        },
+      });
+      const products = handleResponse(response);
+
+      return products;
+    } catch (error) {
+      console.error('Error during product fetching:', error.message);
+      throw new Error('Product fetching failed');
+    }
+  };
+
+  const getMyProducts = async (searchTerm = '') => {
+    try {
+      const response = await fetchWithAuth(`${BASE_URL}/products/me`, {
+        params: {
+          searchTerm,
+        },
+      });
+      const products = handleResponse(response);
+
+      return products;
+    } catch (error) {
+      console.error('Error during product fetching:', error.message);
+      throw new Error('Product fetching failed');
+    }
+  };
+
+  const getDetailProduct = async (id) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/products/${id}`);
+      const product = handleResponse(response);
+
+      return product;
+    } catch (error) {
+      console.error('Error during product fetching:', error.message);
+      throw new Error('Product fetching failed');
+    }
+  };
+
+  const updateProduct = async ({ id, name, description, price, imgUrl }) => {
+    try {
+      const response = await fetchWithAuth(`${BASE_URL}/products/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          name,
+          description,
+          price,
+          imgUrl,
+        },
+      });
+      const product = handleResponse(response);
+
+      return product;
+    } catch (error) {
+      console.error('Error during product updating:', error.message);
+      throw new Error('Product updating failed');
+    }
+  };
+
+  const deleteProduct = async (id) => {
+    try {
+      const response = await fetchWithAuth(`${BASE_URL}/products/${id}`, {
+        method: 'DELETE',
+      });
+      const product = handleResponse(response);
+
+      return product;
+    } catch (error) {
+      console.error('Error during product deleting:', error.message);
+      throw new Error('Product deleting failed');
+    }
+  };
+
   return {
     login,
     register,
     getAccessToken,
     putAccessToken,
     getOwnProfile,
+    createProduct,
+    getAllProducts,
+    getMyProducts,
+    getDetailProduct,
+    updateProduct,
+    deleteProduct,
   };
 })();
 
