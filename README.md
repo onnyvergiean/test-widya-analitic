@@ -14,6 +14,10 @@ https://naughty-jade-newt.cyclic.app/docs
 
 # FRONTEND RECT JS + DEPLOY NETLIFY
 
+## Notes Edit Product Current Value not Appeared in EditForm only Netlify but can still used for edit
+
+## But in localhost value product appear when try edit Product,
+
 https://6596f016de13211609322040--elegant-pony-c4c343.netlify.app/
 
 ### user test
