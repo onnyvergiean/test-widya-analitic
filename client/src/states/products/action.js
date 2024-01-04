@@ -16,6 +16,13 @@ const receiveMyProductsActionCreator = (myProducts) => ({
   },
 });
 
+const receiveDetailProductActionCreator = (product) => ({
+  type: ActionTypes.RECEIVE_DETAIL_PRODUCT,
+  payload: {
+    product,
+  },
+});
+
 const createProductActionCreator = (product) => ({
   type: ActionTypes.CREATE_PRODUCT,
   payload: {
@@ -44,26 +51,39 @@ const asyncGetAllProducts = ({ searchTerm = '', page = 1, limit = 10 }) => {
       const products = await api.getAllProducts({ searchTerm, page, limit });
       dispatch(receiveProductsActionCreator(products));
     } catch (error) {
-      alert(error.message);
+      console.error('Error during product fetching:', error.message);
     }
     dispatch(hideLoading());
   };
 };
 
-const asyncGetMyProducts = (searchTerm = '') => {
+const asyncGetMyProducts = ({ searchTerm = '' }) => {
   return async (dispatch) => {
     dispatch(showLoading());
     try {
-      const myProducts = await api.getMyProducts(searchTerm);
+      const myProducts = await api.getMyProducts({ searchTerm });
       dispatch(receiveMyProductsActionCreator(myProducts));
     } catch (error) {
-      alert(error.message);
+      console.error('Error during product fetching:', error.message);
     }
     dispatch(hideLoading());
   };
 };
 
-const asyncCreateProduct = ({ name, description, price, imgUrl }) => {
+const asyncGetDetailProduct = (id) => {
+  return async (dispatch) => {
+    dispatch(showLoading());
+    try {
+      const product = await api.getDetailProduct(id);
+      dispatch(receiveDetailProductActionCreator(product));
+    } catch (error) {
+      console.error('Error during product fetching:', error.message);
+    }
+    dispatch(hideLoading());
+  };
+};
+
+const asyncCreateProduct = ({ name, description, price }) => {
   return async (dispatch) => {
     dispatch(showLoading());
     try {
@@ -71,17 +91,16 @@ const asyncCreateProduct = ({ name, description, price, imgUrl }) => {
         name,
         description,
         price,
-        imgUrl,
       });
       dispatch(createProductActionCreator(product));
     } catch (error) {
-      alert(error.message);
+      console.error('Error during product creation:', error.message);
     }
     dispatch(hideLoading());
   };
 };
 
-const asyncUpdateProduct = ({ id, name, description, price, imgUrl }) => {
+const asyncUpdateProduct = ({ id, name, description, price }) => {
   return async (dispatch) => {
     dispatch(showLoading());
     try {
@@ -90,11 +109,10 @@ const asyncUpdateProduct = ({ id, name, description, price, imgUrl }) => {
         name,
         description,
         price,
-        imgUrl,
       });
       dispatch(updateProductActionCreator(updateProduct));
     } catch (error) {
-      alert(error.message);
+      console.error('Error during update:', error.message);
     }
     dispatch(hideLoading());
   };
@@ -107,7 +125,7 @@ const asyncDeleteProduct = (id) => {
       await api.deleteProduct(id);
       dispatch(deleteProductActionCreator(id));
     } catch (error) {
-      alert(error.message);
+      console.error('Error during delete product:', error.message);
     }
     dispatch(hideLoading());
   };
@@ -116,9 +134,11 @@ const asyncDeleteProduct = (id) => {
 export {
   receiveProductsActionCreator,
   receiveMyProductsActionCreator,
+  receiveDetailProductActionCreator,
   createProductActionCreator,
   deleteProductActionCreator,
   asyncGetAllProducts,
+  asyncGetDetailProduct,
   asyncGetMyProducts,
   asyncUpdateProduct,
   asyncCreateProduct,

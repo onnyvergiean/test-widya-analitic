@@ -29,11 +29,10 @@ const asyncSetAuthUser =
 
 const asyncUnsetAuthUser = () => async (dispatch) => {
   try {
-    await api.logout();
     dispatch(unsetAuthUserActionCreator());
     api.putAccessToken('');
   } catch (error) {
-    alert(error.message);
+    console.error('Error during logout:', error.message);
   }
 };
 export {

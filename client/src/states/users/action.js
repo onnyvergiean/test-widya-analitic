@@ -17,7 +17,7 @@ function asyncRegisterUser({ name, email, password, gender }) {
     try {
       await api.register({ name, email, password, gender });
     } catch (error) {
-      alert(error.message);
+      console.error('Error during registration:', error.message);
     }
     dispatch(hideLoading());
   };

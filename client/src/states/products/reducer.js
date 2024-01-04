@@ -1,4 +1,3 @@
-// productReducer.js
 import ActionTypes from '../ActionType';
 
 const initialState = {
@@ -6,24 +5,29 @@ const initialState = {
   myProducts: [],
 };
 
-const productReducer = (state = initialState, action) => {
+const productReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case ActionTypes.RECEIVE_PRODUCTS:
       return {
         ...state,
-        products: action.payload.products,
+        products: action.payload.products || [],
       };
     case ActionTypes.RECEIVE_MY_PRODUCTS:
       return {
         ...state,
-        myProducts: action.payload.products,
+        myProducts: action.payload.myProducts || [],
       };
     case ActionTypes.CREATE_PRODUCT: {
-      const newProduct = action.payload.product;
       return {
         ...state,
-        products: [...state.products, newProduct],
-        myProducts: [...state.myProducts, newProduct],
+        products: [...state.products, action.payload.product],
+        myProducts: [...state.myProducts, action.payload.product],
+      };
+    }
+    case ActionTypes.RECEIVE_DETAIL_PRODUCT: {
+      return {
+        ...state,
+        product: action.payload.product,
       };
     }
     case ActionTypes.UPDATE_PRODUCT: {

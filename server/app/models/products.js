@@ -4,8 +4,9 @@ const getAllProducts = async (limit = 10, page = 1, searchTerm = null) => {
   try {
     const offset = (page - 1) * limit;
     const search = searchTerm ? `%${searchTerm}%` : null;
+
     const products = await db.any(
-      'SELECT * FROM products WHERE (LOWER(name) LIKE $3 OR $3 IS NULL) LIMIT $1 OFFSET $2',
+      'SELECT * FROM products WHERE (name ILIKE $3 OR $3 IS NULL) LIMIT $1 OFFSET $2',
       [limit, offset, search]
     );
 
@@ -33,7 +34,7 @@ const getMyProducts = async (id, searchTerm = null) => {
   try {
     const search = searchTerm ? `%${searchTerm}%` : null;
     const products = await db.any(
-      'SELECT * FROM products WHERE user_id = $1 AND (LOWER(name) LIKE $2 OR $2 IS NULL)',
+      'SELECT * FROM products WHERE user_id = $1 AND (name ILIKE $2 OR $2 IS NULL)',
       [id, search]
     );
 
@@ -44,11 +45,11 @@ const getMyProducts = async (id, searchTerm = null) => {
   }
 };
 
-const createProduct = async (name, description, price, user_id, imgUrl) => {
+const createProduct = async (name, description, price, user_id) => {
   try {
     const newProduct = await db.one(
-      'INSERT INTO products (name, description, price, user_id,imgUrl) VALUES ($1, $2, $3, $4,$5) RETURNING *',
-      [name, description, price, user_id, imgUrl]
+      'INSERT INTO products (name, description, price, user_id) VALUES ($1, $2, $3, $4) RETURNING *',
+      [name, description, price, user_id]
     );
 
     return newProduct;
@@ -58,11 +59,11 @@ const createProduct = async (name, description, price, user_id, imgUrl) => {
   }
 };
 
-const updateProduct = async (id, name, description, price, imgUrl) => {
+const updateProduct = async (id, name, description, price) => {
   try {
     const updatedProduct = await db.one(
-      'UPDATE products SET name = $1, description = $2, price = $3, imgUrl = $4 WHERE id = $5 RETURNING *',
-      [name, description, price, imgUrl, id]
+      'UPDATE products SET name = $1, description = $2, price = $3 WHERE id = $4 RETURNING *',
+      [name, description, price, id]
     );
 
     return updatedProduct;

@@ -42,6 +42,7 @@ const api = (() => {
 
       return response;
     } catch (error) {
+      console.error('Error during fetching:', error.message);
       throw new Error(error.message);
     }
   };
@@ -52,6 +53,7 @@ const api = (() => {
 
       return user;
     } catch (error) {
+      console.error('Error during fetching:', error.message);
       throw new Error(error.message);
     }
   };
@@ -88,7 +90,7 @@ const api = (() => {
     }
   };
 
-  const createProduct = async ({ name, description, price, imgUrl }) => {
+  const createProduct = async ({ name, description, price }) => {
     try {
       const response = await fetchWithAuth(`${BASE_URL}/products`, {
         method: 'POST',
@@ -99,7 +101,6 @@ const api = (() => {
           name,
           description,
           price,
-          imgUrl,
         },
       });
       const product = handleResponse(response);
@@ -107,7 +108,6 @@ const api = (() => {
       return product;
     } catch (error) {
       console.error('Error during product creation:', error.message);
-      throw new Error('Product creation failed');
     }
   };
 
@@ -125,11 +125,21 @@ const api = (() => {
       return products;
     } catch (error) {
       console.error('Error during product fetching:', error.message);
-      throw new Error('Product fetching failed');
     }
   };
 
-  const getMyProducts = async (searchTerm = '') => {
+  const getProductById = async (id) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/products/${id}`);
+      const product = handleResponse(response);
+
+      return product;
+    } catch (error) {
+      console.error('Error during product fetching:', error.message);
+    }
+  };
+
+  const getMyProducts = async ({ searchTerm = '' }) => {
     try {
       const response = await fetchWithAuth(`${BASE_URL}/products/me`, {
         params: {
@@ -141,7 +151,6 @@ const api = (() => {
       return products;
     } catch (error) {
       console.error('Error during product fetching:', error.message);
-      throw new Error('Product fetching failed');
     }
   };
 
@@ -153,11 +162,10 @@ const api = (() => {
       return product;
     } catch (error) {
       console.error('Error during product fetching:', error.message);
-      throw new Error('Product fetching failed');
     }
   };
 
-  const updateProduct = async ({ id, name, description, price, imgUrl }) => {
+  const updateProduct = async ({ id, name, description, price }) => {
     try {
       const response = await fetchWithAuth(`${BASE_URL}/products/${id}`, {
         method: 'PUT',
@@ -168,7 +176,6 @@ const api = (() => {
           name,
           description,
           price,
-          imgUrl,
         },
       });
       const product = handleResponse(response);
@@ -176,7 +183,6 @@ const api = (() => {
       return product;
     } catch (error) {
       console.error('Error during product updating:', error.message);
-      throw new Error('Product updating failed');
     }
   };
 
@@ -190,7 +196,6 @@ const api = (() => {
       return product;
     } catch (error) {
       console.error('Error during product deleting:', error.message);
-      throw new Error('Product deleting failed');
     }
   };
 
@@ -206,6 +211,7 @@ const api = (() => {
     getDetailProduct,
     updateProduct,
     deleteProduct,
+    getProductById,
   };
 })();
 
