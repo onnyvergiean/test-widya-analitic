@@ -8,6 +8,13 @@ import { asyncPreloadProcess } from './states/isPreload/action';
 import HomePage from './pages/HomePage.jsx';
 import NotFoundPage from './pages/NotFoundPage.jsx';
 import Navbar from './components/Navbar.jsx';
+import MyProductsPage from './pages/MyProducts.jsx';
+import AddProductPage from './pages/AddProductPage.jsx';
+import DetailProductPage from './pages/DetailProductPage.jsx';
+import EditProductPage from './pages/EditProductPage.jsx';
+import DeleteProductPage from './pages/DeleteProductPage.jsx';
+import ProfilePage from './pages/ProfilePage.jsx';
+import { asyncUnsetAuthUser } from './states/auth/action.js';
 
 const App = () => {
   const isPreload = useSelector((state) => state.isPreload);
@@ -16,6 +23,10 @@ const App = () => {
   useEffect(() => {
     dispatch(asyncPreloadProcess());
   }, [dispatch]);
+
+  const onSignOut = () => {
+    dispatch(asyncUnsetAuthUser());
+  };
 
   if (isPreload) {
     return null;
@@ -40,6 +51,15 @@ const App = () => {
       <Routes>
         <Route path="/*" element={<NotFoundPage />} />
         <Route path="/" element={<HomePage />} />
+        <Route path="/my-products" element={<MyProductsPage />} />
+        <Route path="/new" element={<AddProductPage />} />
+        <Route path="/products/:id" element={<DetailProductPage />} />
+        <Route path="/products/edit/:id" element={<EditProductPage />} />
+        <Route path="/products/delete/:id" element={<DeleteProductPage />} />
+        <Route
+          path="/profile"
+          element={<ProfilePage authUser={authUser} signOut={onSignOut} />}
+        />
       </Routes>
     </>
   );
